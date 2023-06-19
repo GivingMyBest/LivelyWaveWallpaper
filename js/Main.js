@@ -17,7 +17,8 @@ function livelyPropertyListener(name, val){
             offsetStrength = val;
         }break;
         case "bgColor":{
-            bgColor = color;
+            bgColor = val;
+            console.log(color);
         }break;
         case "noiseScale":{
             noiseScale = val;

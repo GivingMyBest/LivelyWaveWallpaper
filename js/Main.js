@@ -1,10 +1,44 @@
+let genLoopX;
+let genLoopY;
+let drawLoopX;
+let drawLoopY;
+
+let interval;
+
+let canvas;
+
 function livelyPropertyListener(name, val){
     switch(name){
-        case "baseColor":{
-            baseColor = val;
-        }break;
         case "cellSize":{
             cellSize = val;
+            recalculateLoopLengths();
+        }break;
+        case "offsetStrength":{
+            offsetStrength = val;
+        }break;
+        case "bgColor":{
+            bgColor = color;
+        }break;
+        case "noiseScale":{
+            noiseScale = val;
+        }break;
+        case "framerate":{
+            clearInterval(interval);
+            framerate = val;
+            interval = setInterval(function(){draw();}, 1000 / framerate);
+        }break;
+        case "speed":{
+            speed = val;
+        }break;
+        case "colorSpeed":{
+            colorSpeed = val;
+        }break;
+        case "lineWidth":{
+            lineWidth = val;
+            canvas.setLineWidth(val);
+        }break;
+        case "seeTrough":{
+            seeTrough = val;
         }
             
     }
@@ -15,10 +49,9 @@ function livelyAudioListener(audioArray)
     
 }
 
-let baseColor = getColor(100, 100, 100);
 let cellSize = 125;
 let offsetStrength = 1000;
-let bgColor = 'brown';
+let bgColor;
 let noiseScale = 1;
 let framerate = 60;
 let speed = 4000;
@@ -26,25 +59,28 @@ let colorSpeed = 4000;
 let lineWidth = 3;
 let seeTrough = false;
 
-let canvas = new Canvas(document.getElementById('canvas'));
+canvas = new Canvas(document.getElementById('canvas'));
 
 canvas.setWidth(window.innerWidth);
 canvas.setHeight(window.innerHeight);
 
 canvas.setLineWidth(lineWidth);
 
-setInterval(function(){draw();}, 1000 / framerate);
+recalculateLoopLengths();
+
+interval = setInterval(function(){draw();}, 1000 / framerate);
 
 let positions = [];
 
 
-const genLoopX = Math.ceil(window.innerWidth / cellSize + 1) * 1.5;
-const genLoopY = Math.ceil(window.innerHeight / cellSize + 1) * 2;
+function recalculateLoopLengths(){
+    genLoopX = Math.ceil(window.innerWidth / cellSize + 1) * 2;
+    genLoopY = Math.ceil(window.innerHeight / cellSize + 1) * 2;
+    drawLoopX = genLoopX - 1;
+    drawLoopY = genLoopY - 1;
+}
 
-const drawLoopX = genLoopX - 1
-const drawLoopY = genLoopY - 1
 
-console.log(perlin.get(0.3, 0.1));
 function draw(){
     //const start = performance.now();
     const now = Date.now();
@@ -59,7 +95,7 @@ function draw(){
             positions[x][y] = pos;
         }
     }
-    const renderOffset = 500;
+    const renderOffset = 450;
     for (let x = 0; x < drawLoopX; x++) {
         for (let y = 0; y < drawLoopY; y++) {
 

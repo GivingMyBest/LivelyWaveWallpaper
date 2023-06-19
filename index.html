@@ -5,17 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Wallpaper</title>
     <style>
-        canvas{
-            border: 0px solid rgb(162, 162, 162);
-        }
-        body{
-            scrollbar-width: none;
-        }
-        .hide-scrollbar{
-            overflow: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        
+
     </style>
     <script src="./js/jquery-3.7.0.js"></script>
 </head>
@@ -24,6 +15,12 @@
         html, body{
             margin: 0 !important;
             padding: 0 !important;
+        }
+        canvas{
+            border: 0px solid rgb(162, 162, 162);
+        }
+        body{
+            overflow: hidden;
         }
     </style>
     <canvas id="canvas" width="1280" height="720"></canvas>

@@ -44,6 +44,7 @@ function livelyPropertyListener(name, val){
     }
 }
 
+//TODO
 function livelyAudioListener(audioArray)
 {
     
@@ -75,7 +76,7 @@ let positions = [];
 
 function recalculateLoopLengths(){
     genLoopX = Math.ceil(window.innerWidth / cellSize + 1) * 2;
-    genLoopY = Math.ceil(window.innerHeight / cellSize + 1) * 2;
+    genLoopY = Math.ceil(window.innerHeight / cellSize + 1) * 2.5;
     drawLoopX = genLoopX - 1;
     drawLoopY = genLoopY - 1;
 }

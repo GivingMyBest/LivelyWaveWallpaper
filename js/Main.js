@@ -51,15 +51,17 @@ function livelyAudioListener(audioArray)
     
 }
 
-let cellSize = 125;
+let cellSize = 50;
 let offsetStrength = 1000;
-let bgColor;
+let bgColor = 'black'
 let noiseScale = 1;
-let framerate = 60;
+let framerate = 30;
 let speed = 4000;
 let colorSpeed = 4000;
-let lineWidth = 3;
+let lineWidth = 5;
 let seeTrough = false;
+let gridSizeMultiplierX = 1.75;
+let gridSizeMultiplierY = 2;
 
 canvas = new Canvas(document.getElementById('canvas'));
 
@@ -72,47 +74,59 @@ recalculateLoopLengths();
 
 interval = setInterval(function(){draw();}, 1000 / framerate);
 
-let positions = [];
 
+let positions = [];
+let highestY = [];
 
 function recalculateLoopLengths(){
-    genLoopX = Math.ceil(window.innerWidth / cellSize + 1) * 2;
-    genLoopY = Math.ceil(window.innerHeight / cellSize + 1) * 2.5;
+    genLoopX = Math.ceil(window.innerWidth / cellSize + 1) * gridSizeMultiplierX;
+    genLoopY = Math.ceil(window.innerHeight / cellSize + 1) * gridSizeMultiplierY;
     drawLoopX = genLoopX - 1;
     drawLoopY = genLoopY - 1;
 }
 
 
 function draw(){
-    //const start = performance.now();
+    const start = performance.now();
     const now = Date.now();
     canvas.drawRect(new Vector2(0, 0), new Vector2(canvas.getWidth(), canvas.getHeight()), bgColor);
 
+    const renderOffsetX = 500;
+    const renderOffsetY = 475;
 
     for (let x = 0; x < genLoopX; x++) {
         positions[x] = [];
         for (let y = 0; y < genLoopY; y++) {
             const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
-            const pos = new Vector2(x * cellSize + noisePos, y * cellSize + noisePos);
+            const pos = new Vector2(x * cellSize + noisePos - renderOffsetX, y * cellSize + noisePos - renderOffsetY);
+
             positions[x][y] = pos;
         }
     }
-    const renderOffset = 450;
-    for (let x = 0; x < drawLoopX; x++) {
-        for (let y = 0; y < drawLoopY; y++) {
 
-            const a = new Vector2(positions[x][y].x - renderOffset, positions[x][y].y - renderOffset)
-            const b = new Vector2(positions[x + 1][y].x - renderOffset, positions[x + 1][y].y - renderOffset);
-            const c = new Vector2(positions[x + 1][y + 1].x - renderOffset, positions[x + 1][y + 1].y - renderOffset);
-            const d = new Vector2(positions[x][y + 1].x - renderOffset, positions[x][y + 1].y - renderOffset);
+    canvas.ctx.strokeStyle = getRainbowColor(now / colorSpeed);
+    
+    
+    for (let y = 0; y < drawLoopY; y++) {
+        for (let x = 0; x < drawLoopX; x++) {
 
-            const color = getRainbowColor(now / colorSpeed + x * y * 10);
-            if(seeTrough == false){
-                canvas.drawFourCornerFill(a, b, c, d, bgColor);
-            }
             
-            canvas.drawFourCornerStroke(a, b, c, d, color);
+            canvas.drawFourCornerFill(positions[x][y], positions[x + 1][y], positions[x + 1][y + 1], positions[x][y + 1], bgColor);
+            
+            canvas.ctx.beginPath();
+            canvas.ctx.moveTo(positions[x][y].x, positions[x][y].y);
+            canvas.ctx.lineTo(positions[x + 1][y].x, positions[x + 1][y].y);
+            canvas.ctx.moveTo(positions[x][y].x, positions[x][y].y);
+            canvas.ctx.lineTo(positions[x][y + 1].x, positions[x][y + 1].y);
+            canvas.ctx.stroke();
         }
+    }
+    
+
+    const end = performance.now();
+    const frametime = end - start;
+    if(frametime > 1000 / framerate){
+    console.warn("Can't keep up! Gotten Frametime: " + frametime + " Wanted Frametime: " + 1000 / framerate);
     }
 }
 

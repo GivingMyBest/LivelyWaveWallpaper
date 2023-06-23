@@ -2,10 +2,10 @@ let genLoopX;
 let genLoopY;
 let drawLoopX;
 let drawLoopY;
-
+let bgColor = 'black'
 let interval;
 
-let canvas;
+const canvas = new Canvas(document.getElementById('canvas'));
 
 function livelyPropertyListener(name, val){
     switch(name){
@@ -18,7 +18,6 @@ function livelyPropertyListener(name, val){
         }break;
         case "bgColor":{
             bgColor = val;
-            console.log(color);
         }break;
         case "noiseScale":{
             noiseScale = val;
@@ -53,7 +52,6 @@ function livelyAudioListener(audioArray)
 
 let cellSize = 50;
 let offsetStrength = 1000;
-let bgColor = 'black'
 let noiseScale = 1;
 let framerate = 30;
 let speed = 4000;
@@ -63,7 +61,6 @@ let seeTrough = false;
 let gridSizeMultiplierX = 1.75;
 let gridSizeMultiplierY = 2;
 
-canvas = new Canvas(document.getElementById('canvas'));
 
 canvas.setWidth(window.innerWidth);
 canvas.setHeight(window.innerHeight);
@@ -87,14 +84,14 @@ function recalculateLoopLengths(){
 
 
 function draw(){
-    const start = performance.now();
+    //const start = performance.now();
     const now = Date.now();
     canvas.drawRect(new Vector2(0, 0), new Vector2(canvas.getWidth(), canvas.getHeight()), bgColor);
 
     const renderOffsetX = 500;
     const renderOffsetY = 475;
 
-    for (let x = 0; x < genLoopX; x++) {
+    /*for (let x = 0; x < genLoopX; x++) {
         positions[x] = [];
         for (let y = 0; y < genLoopY; y++) {
             const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
@@ -102,32 +99,40 @@ function draw(){
 
             positions[x][y] = pos;
         }
-    }
+    }*/
 
     canvas.ctx.strokeStyle = getRainbowColor(now / colorSpeed);
     
-    
     for (let y = 0; y < drawLoopY; y++) {
         for (let x = 0; x < drawLoopX; x++) {
+            const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+            const pos = new Vector2(x * cellSize + noisePos - renderOffsetX, y * cellSize + noisePos - renderOffsetY);
 
+            const noisePosA = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+            const posA = new Vector2((x + 1) * cellSize + noisePosA - renderOffsetX, y * cellSize + noisePosA - renderOffsetY);
+
+            const noisePosB = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+            const posB = new Vector2(x * cellSize + noisePosB - renderOffsetX, (y + 1) * cellSize + noisePosB - renderOffsetY);
+
+            const noisePosC = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+            const posC = new Vector2((x + 1) * cellSize + noisePosC - renderOffsetX, (y + 1) * cellSize + noisePosC - renderOffsetY);
             
-            canvas.drawFourCornerFill(positions[x][y], positions[x + 1][y], positions[x + 1][y + 1], positions[x][y + 1], bgColor);
+            canvas.drawFourCornerFill(pos, posA, posB, posC, bgColor);
             
             canvas.ctx.beginPath();
-            canvas.ctx.moveTo(positions[x][y].x, positions[x][y].y);
-            canvas.ctx.lineTo(positions[x + 1][y].x, positions[x + 1][y].y);
-            canvas.ctx.moveTo(positions[x][y].x, positions[x][y].y);
-            canvas.ctx.lineTo(positions[x][y + 1].x, positions[x][y + 1].y);
+            canvas.ctx.moveTo(pos.x, pos.y);
+            canvas.ctx.lineTo(posA.x, posA.y);
+            canvas.ctx.moveTo(pos.x, pos.y);
+            canvas.ctx.lineTo(posB.x, posB.y);
             canvas.ctx.stroke();
         }
     }
-    
 
-    const end = performance.now();
+    /*const end = performance.now();
     const frametime = end - start;
     if(frametime > 1000 / framerate){
-    console.warn("Can't keep up! Gotten Frametime: " + frametime + " Wanted Frametime: " + 1000 / framerate);
-    }
+        //console.warn("Can't keep up! Gotten Frametime: " + frametime + " Wanted Frametime: " + 1000 / framerate);
+    }*/
 }
 
 function getColor(r, g, b){
@@ -137,18 +142,18 @@ function getColor(r, g, b){
 
 function getRainbowColor(position) {
     //Calculating Normalized position
-    var normalizedPosition = position % 1;
+    const normalizedPosition = position % 1;
     if (normalizedPosition < 0) {
       normalizedPosition += 1;
     }
   
     //Calculating r, g, b components
-    var red = Math.round(Math.sin(normalizedPosition * Math.PI * 2 + 0) * 127 + 128);
-    var green = Math.round(Math.sin(normalizedPosition * Math.PI * 2 + (2 * Math.PI / 3)) * 127 + 128);
-    var blue = Math.round(Math.sin(normalizedPosition * Math.PI * 2 + (4 * Math.PI / 3)) * 127 + 128);
+    const red = Math.sin(normalizedPosition * Math.PI * 2 + 0) * 127 + 128;
+    const green = Math.sin(normalizedPosition * Math.PI * 2 + (2 * Math.PI / 3)) * 127 + 128;
+    const blue = Math.sin(normalizedPosition * Math.PI * 2 + (4 * Math.PI / 3)) * 127 + 128;
   
     //Generating Color String
-    var color = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+    const color = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
   
     //Returning Color
     return color;

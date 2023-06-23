@@ -24,11 +24,10 @@ class Canvas{
     drawFourCornerFill(a, b, c, d, color){
         this.ctx.fillStyle = color;
         this.ctx.beginPath();
-        this.ctx.moveTo(a.x, a.y);
-        this.ctx.lineTo(b.x, b.y);
+        this.ctx.moveTo(b.x, b.y);
+        this.ctx.lineTo(a.x, a.y);
         this.ctx.lineTo(c.x, c.y);
         this.ctx.lineTo(d.x, d.y);
-        //this.ctx.closePath();
         this.ctx.fill();
     }
 

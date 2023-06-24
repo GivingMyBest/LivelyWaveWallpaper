@@ -2,13 +2,13 @@
 
 This is a live wallpaper build for the Lively Wallpaper Application. It shows wave-like patterns wich are build of squares. 
 
-### Installing
+## Installing
 To run this Wallpaper you'll need the Lively Wallpaper Application. Install it from  [here](https://www.rocksdanister.com/lively/ "Lively Wallpaper Homepage").
 
 Now you have to download this Wallpaper from [here](https://github.com/GivingMyBest/LivelyWaveWallpaper/releases/ "Lively Wave Wallpaper Releases"). Choose whatever version you want. You have to download the LivelyWallpaper.zip file.
 Next open the Lively Application and Press the plus in the top-right corner. You can just drag the LivelyWaveWallpaper.zip file here and your wallpaper should get added automaticaly.
 
-### Settings
+## Settings
 To get to the wallpaper settings go to the wallpaper in Lively and press the three dots on the bottom right of the Wallpaper icon. There press on Customize. Here you'll see all Settings for the Wallpaper.
 
 #### CellSize

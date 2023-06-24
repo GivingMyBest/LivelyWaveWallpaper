@@ -103,7 +103,9 @@ function draw(){
 
     canvas.ctx.strokeStyle = getRainbowColor(now / colorSpeed);
     
+    
     for (let y = 0; y < drawLoopY; y++) {
+        
         for (let x = 0; x < drawLoopX; x++) {
             const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
             const pos = new Vector2(x * cellSize + noisePos - renderOffsetX, y * cellSize + noisePos - renderOffsetY);
@@ -117,7 +119,10 @@ function draw(){
             const noisePosC = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
             const posC = new Vector2((x + 1) * cellSize + noisePosC - renderOffsetX, (y + 1) * cellSize + noisePosC - renderOffsetY);
             
-            canvas.drawFourCornerFill(pos, posA, posB, posC, bgColor);
+            if(seeTrough == false){
+                canvas.drawFourCornerFill(pos, posA, posB, posC, bgColor);
+            }
+            
             
             canvas.ctx.beginPath();
             canvas.ctx.moveTo(pos.x, pos.y);
@@ -126,7 +131,9 @@ function draw(){
             canvas.ctx.lineTo(posB.x, posB.y);
             canvas.ctx.stroke();
         }
+        
     }
+    
 
     /*const end = performance.now();
     const frametime = end - start;

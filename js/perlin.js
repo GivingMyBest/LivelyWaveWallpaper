@@ -26,8 +26,6 @@ let perlin = {
         this.memory = {};
     },
     get: function(x, y) {
-        if (this.memory.hasOwnProperty([x,y]))
-            return this.memory[[x,y]];
         let xf = Math.floor(x);
         let yf = Math.floor(y);
         //interpolate
@@ -38,7 +36,6 @@ let perlin = {
         let xt = this.interp(x-xf, tl, tr);
         let xb = this.interp(x-xf, bl, br);
         let v = this.interp(y-yf, xt, xb);
-        this.memory[[x,y]] = v;
         return v;
     }
 }

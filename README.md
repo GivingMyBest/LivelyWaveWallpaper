@@ -9,7 +9,7 @@ Now you have to download this Wallpaper from [here](https://github.com/GivingMyB
 Next open the Lively Application and Press the plus in the top-right corner. You can just drag the LivelyWaveWallpaper.zip file here and your wallpaper should get added automaticaly.
 
 ### Settings
-To get to the wallpaper settings go to the wallpaper in Lively and press to three dots on the bottom right of the Wallpaper icon. There press on Customize. Here you'll see all Settings for the Wallpaper.
+To get to the wallpaper settings go to the wallpaper in Lively and press the three dots on the bottom right of the Wallpaper icon. There press on Customize. Here you'll see all Settings for the Wallpaper.
 
 ##### CellSize
 This setting determines the size of the squares the Waves are build of.

@@ -1,7 +1,7 @@
 {
     "cellSize":{
         "max": 750,
-        "min": 5,
+        "min": 20,
         "step": 1,
         "text": "Cell Size",
         "type": "slider",
@@ -24,7 +24,7 @@
         "value": 1
     },
     "framerate":{
-        "max": 240,
+        "max": 360,
         "min": 1,
         "step": 1,
         "text": "Framerate",
@@ -53,7 +53,7 @@
         "step": 1,
         "text": "Line Width",
         "type": "slider",
-        "value": 1
+        "value": 5
     },
     "seeTrough": {
         "type": "checkbox",

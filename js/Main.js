@@ -91,16 +91,6 @@ function draw(){
     const renderOffsetX = 500;
     const renderOffsetY = 475;
 
-    /*for (let x = 0; x < genLoopX; x++) {
-        positions[x] = [];
-        for (let y = 0; y < genLoopY; y++) {
-            const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
-            const pos = new Vector2(x * cellSize + noisePos - renderOffsetX, y * cellSize + noisePos - renderOffsetY);
-
-            positions[x][y] = pos;
-        }
-    }*/
-
     canvas.ctx.strokeStyle = getRainbowColor(now / colorSpeed);
     
     

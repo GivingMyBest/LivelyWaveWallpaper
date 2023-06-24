@@ -25,3 +25,5 @@ The Speed of the Waves. Here lower values mean faster waves.
 The Speed of the Colors. Here lower values also mean faster colors.
 #### Line Width
 How thick the drawn lines are.
+#### See Trough
+If activated you can see trough the squares and see what happens behind.

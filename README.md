@@ -11,19 +11,24 @@ Next open the Lively Application and Press the plus in the top-right corner. You
 ## Settings
 To get to the wallpaper settings go to the wallpaper in Lively and press the three dots on the bottom right of the Wallpaper icon. There press on Customize. Here you'll see all Settings for the Wallpaper.
 
-#### CellSize
+### CellSize
 This setting determines the size of the squares the Waves are build of.
-#### Wave Strength
+### Wave Strength
 This Setting determines how strong the Waves are.
-#### Wave Zoom
+### Wave Zoom
 Zooms in and out of the Waves. The Squares stay the same.
-#### Framerate
+### Framerate
 Sets the targeted Framerate of the Wallpaper. Lower values will consume less performance but'll stutter more.
-#### Wave Speed
+### Wave Speed
 The Speed of the Waves. Here lower values mean faster waves.
-#### Color Speed
+### Color Speed
 The Speed of the Colors. Here lower values also mean faster colors.
-#### Line Width
+### Line Width
 How thick the drawn lines are.
-#### See Trough
+### See Trough
 If activated you can see trough the squares and see what happens behind.
+### Background Color
+The Background Color of the Wallpaper
+### Lines Rainbow
+If unchecked you can pick the color of the Lines with the Setting below. If checked, the colr of the Lines will fade over the rainbow with the Speed set in the Color Speed Setting.
+### The Color of the Lines if not Rainbow Mode.

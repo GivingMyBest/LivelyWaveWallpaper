@@ -59,5 +59,20 @@
         "type": "checkbox",
         "value": false,
         "text": "See Trough"
+    },
+    "bgColor":{
+        "text": "Background Color",
+        "type": "color",
+        "value": "#000000"
+    },
+    "rainbow": {
+        "type": "checkbox",
+        "value": true,
+        "text": "Lines Rainbow"
+    },
+    "lineColor":{
+        "text": "Line Color",
+        "type": "color",
+        "value": "#FFFFFF"
     }
 }

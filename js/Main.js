@@ -4,6 +4,8 @@ let drawLoopX;
 let drawLoopY;
 let bgColor = 'black'
 let interval;
+let rainbow = true;
+let lineColor;
 
 const canvas = new Canvas(document.getElementById('canvas'));
 
@@ -28,7 +30,7 @@ function livelyPropertyListener(name, val){
             interval = setInterval(function(){draw();}, 1000 / framerate);
         }break;
         case "speed":{
-            speed = val;
+            settingSpeed = val;
         }break;
         case "colorSpeed":{
             colorSpeed = val;
@@ -39,27 +41,28 @@ function livelyPropertyListener(name, val){
         }break;
         case "seeTrough":{
             seeTrough = val;
-        }
-            
+        }break;
+        case "rainbow":{
+            rainbow = val;
+        }break;
+        case "lineColor":{
+            lineColor = val;
+        }break;   
     }
-}
-
-//TODO
-function livelyAudioListener(audioArray)
-{
-    
 }
 
 let cellSize = 50;
 let offsetStrength = 1000;
 let noiseScale = 1;
-let framerate = 30;
+let framerate = 24;
 let speed = 4000;
+let settingSpeed = 4000;
 let colorSpeed = 4000;
 let lineWidth = 5;
 let seeTrough = false;
 let gridSizeMultiplierX = 1.75;
 let gridSizeMultiplierY = 2;
+let audioEffectStrength = 100;
 
 
 canvas.setWidth(window.innerWidth);
@@ -88,38 +91,44 @@ function draw(){
     const now = Date.now();
     canvas.drawRect(new Vector2(0, 0), new Vector2(canvas.getWidth(), canvas.getHeight()), bgColor);
 
-    const renderOffsetX = 500;
+    const renderOffsetX = 450;
     const renderOffsetY = 475;
 
-    canvas.ctx.strokeStyle = getRainbowColor(now / colorSpeed);
+    if(rainbow == true){
+        canvas.ctx.strokeStyle = getRainbowColor(now / colorSpeed);
+    }else{
+        canvas.ctx.strokeStyle = lineColor;
+    }
+    
     
     
     for (let y = 0; y < drawLoopY; y++) {
-        
         for (let x = 0; x < drawLoopX; x++) {
-            const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
-            const pos = new Vector2(x * cellSize + noisePos - renderOffsetX, y * cellSize + noisePos - renderOffsetY);
+                const noisePos = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+                const pos = new Vector2(x * cellSize + noisePos - renderOffsetX, y * cellSize + noisePos - renderOffsetY);
 
-            const noisePosA = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
-            const posA = new Vector2((x + 1) * cellSize + noisePosA - renderOffsetX, y * cellSize + noisePosA - renderOffsetY);
+                const noisePosA = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), y / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+                const posA = new Vector2((x + 1) * cellSize + noisePosA - renderOffsetX, y * cellSize + noisePosA - renderOffsetY);
 
-            const noisePosB = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
-            const posB = new Vector2(x * cellSize + noisePosB - renderOffsetX, (y + 1) * cellSize + noisePosB - renderOffsetY);
+                const noisePosB = perlin.get(x / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+                const posB = new Vector2(x * cellSize + noisePosB - renderOffsetX, (y + 1) * cellSize + noisePosB - renderOffsetY);
 
-            const noisePosC = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
-            const posC = new Vector2((x + 1) * cellSize + noisePosC - renderOffsetX, (y + 1) * cellSize + noisePosC - renderOffsetY);
+                const noisePosC = perlin.get((x + 1) / Math.ceil(window.innerWidth / cellSize + 1) * noiseScale + (now / speed), (y + 1) / Math.ceil(window.innerHeight / cellSize + 1) * noiseScale + (now / speed)) * offsetStrength;
+                const posC = new Vector2((x + 1) * cellSize + noisePosC - renderOffsetX, (y + 1) * cellSize + noisePosC - renderOffsetY);
             
-            if(seeTrough == false){
-                canvas.drawFourCornerFill(pos, posA, posB, posC, bgColor);
-            }
+                if(seeTrough == false){
+                    canvas.drawFourCornerFill(pos, posA, posB, posC, bgColor);
+                }
             
             
-            canvas.ctx.beginPath();
-            canvas.ctx.moveTo(pos.x, pos.y);
-            canvas.ctx.lineTo(posA.x, posA.y);
-            canvas.ctx.moveTo(pos.x, pos.y);
-            canvas.ctx.lineTo(posB.x, posB.y);
-            canvas.ctx.stroke();
+                canvas.ctx.beginPath();
+                canvas.ctx.moveTo(pos.x, pos.y);
+                canvas.ctx.lineTo(posA.x, posA.y);
+                canvas.ctx.moveTo(pos.x, pos.y);
+                canvas.ctx.lineTo(posB.x, posB.y);
+                canvas.ctx.stroke();
+            
+            
         }
         
     }
@@ -131,6 +140,7 @@ function draw(){
         //console.warn("Can't keep up! Gotten Frametime: " + frametime + " Wanted Frametime: " + 1000 / framerate);
     }*/
 }
+
 
 function getColor(r, g, b){
     return 'rgb(' + r + ',' + g + ',' + b + ')';
@@ -155,3 +165,7 @@ function getRainbowColor(position) {
     //Returning Color
     return color;
   }
+
+  function remap(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}

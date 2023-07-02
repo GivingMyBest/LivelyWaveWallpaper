@@ -83,8 +83,8 @@ function recalculateLoopLengths(){
 
 
 function draw() {
-    const start = performance.now();
-    const now = performance.now() * 1.4;
+    //const start = performance.now();
+    const now = performance.now();
     canvas.drawRect(new Vector2(0, 0), new Vector2(canvas.getWidth(), canvas.getHeight()), bgColor);
   
     const renderOffsetX = 450;
@@ -123,11 +123,11 @@ function draw() {
       }
     }
   
-    const end = performance.now();
+    /*const end = performance.now();
     const frametime = end - start;
     if (frametime > 1000 / framerate) {
       console.warn("Can't keep up! Gotten Frametime: " + frametime + " Wanted Frametime: " + 1000 / framerate);
-    }
+    }*/
   }
   
 

@@ -4,7 +4,7 @@ class Canvas{
 
     constructor(canvas){
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext('2d', {alpha: false});
     }
 
     drawRect(pos, size, color){
@@ -28,6 +28,7 @@ class Canvas{
         this.ctx.lineTo(a.x, a.y);
         this.ctx.lineTo(c.x, c.y);
         this.ctx.lineTo(d.x, d.y);
+        this.ctx.closePath();
         this.ctx.fill();
     }
 
